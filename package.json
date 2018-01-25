@@ -1,0 +1,19 @@
+{
+  "name": "reasonml-demo-iterators",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "watch": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "test": "jest"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@glennsl/bs-jest": "^0.3.3",
+    "bs-platform": "^2.1.0"
+  }
+}
