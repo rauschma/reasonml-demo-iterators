@@ -4,7 +4,7 @@ open Expect;
 let join1 = (~sep: string = "", g: Gen.t(string)) => {
   Gen.fold(
     (state, (str, lookahead)) =>
-      /* No separater after the last element */
+      /* No separator after the last element */
       switch lookahead {
       | None => state ++ str
       | _ => state ++ str ++ sep
@@ -25,7 +25,7 @@ test("join1", () => {
 let join2 = (~sep: string = "", g: Gen.t(string)) => {
   Gen.fold(
     (state, (index, str)) =>
-      /* No separater before the first element */
+      /* No separator before the first element */
       if (index == 0) {
         state ++ str;
       } else {

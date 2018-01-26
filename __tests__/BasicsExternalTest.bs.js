@@ -52,11 +52,9 @@ Jest.test("map", (function () {
                 ]
               ]
             ]);
-        var seqOut = function (param) {
-          return BasicsExternal$ReasonmlDemoIterators.map((function (x) {
-                        return (x << 1);
-                      }), seqIn, param);
-        };
+        var seqOut = BasicsExternal$ReasonmlDemoIterators.map((function (x) {
+                return (x << 1);
+              }), seqIn);
         return Jest.Expect[/* toEqual */12](/* :: */[
                     2,
                     /* :: */[
