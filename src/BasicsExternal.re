@@ -30,22 +30,23 @@ let length = (g: gen('a)): int => {
   aux(0);
 };
 
-let map = (~f: 'a => 'b, g: gen('a)): gen('b) => {
-  () =>
-    switch (g()) {
+let map = (~f: 'a => 'b, in_: gen('a)): gen('b) => {
+  let out = () =>
+    switch (in_()) {
     | Some(x) => Some(f(x))
     | None => None
     };
+  out;
 };
 
-let filter = (~f: 'a => bool, g: gen('a)): gen('a) => {
-  let rec next = () =>
-    switch (g()) {
+let filter = (~f: 'a => bool, in_: gen('a)): gen('a) => {
+  let rec out = () =>
+    switch (in_()) {
     | Some(x) =>
-      if (f(x)) Some(x) else next();
+      if (f(x)) Some(x) else out();
     | None => None
     };
-  next;
+  out;
 };
 
 let iter = (~f: 'a => unit, g: gen('a)): unit => {

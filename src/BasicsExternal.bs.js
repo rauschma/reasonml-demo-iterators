@@ -52,19 +52,21 @@ function length(g) {
   };
 }
 
-function map(f, g, _) {
-  var match = Curry._1(g, /* () */0);
-  if (match) {
-    return /* Some */[Curry._1(f, match[0])];
-  } else {
-    return /* None */0;
-  }
+function map(f, in_) {
+  return (function () {
+      var match = Curry._1(in_, /* () */0);
+      if (match) {
+        return /* Some */[Curry._1(f, match[0])];
+      } else {
+        return /* None */0;
+      }
+    });
 }
 
-function filter(f, g) {
-  var next = function (_param) {
+function filter(f, in_) {
+  var out = function (_param) {
     while(true) {
-      var match = Curry._1(g, /* () */0);
+      var match = Curry._1(in_, /* () */0);
       if (match) {
         var x = match[0];
         if (Curry._1(f, x)) {
@@ -79,7 +81,7 @@ function filter(f, g) {
       }
     };
   };
-  return next;
+  return out;
 }
 
 function iter(f, g) {
