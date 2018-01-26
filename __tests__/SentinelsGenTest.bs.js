@@ -4,32 +4,7 @@
 var Jest                      = require("@glennsl/bs-jest/src/jest.js");
 var Gen$ReasonmlDemoIterators = require("../src/lib/gen/gen.bs.js");
 
-function join1($staropt$star, g) {
-  var sep = $staropt$star ? $staropt$star[0] : "";
-  return Gen$ReasonmlDemoIterators.fold((function (state, param) {
-                var str = param[0];
-                if (param[1]) {
-                  return state + (str + sep);
-                } else {
-                  return state + str;
-                }
-              }), "", Gen$ReasonmlDemoIterators.peek(g));
-}
-
-Jest.test("join1", (function () {
-        return Jest.Expect[/* toBe */2]("a|b|c", Jest.Expect[/* expect */0](join1(/* Some */["|"], Gen$ReasonmlDemoIterators.of_list(/* :: */[
-                                "a",
-                                /* :: */[
-                                  "b",
-                                  /* :: */[
-                                    "c",
-                                    /* [] */0
-                                  ]
-                                ]
-                              ]))));
-      }));
-
-function join2($staropt$star, g) {
+function joinViaIndex($staropt$star, g) {
   var sep = $staropt$star ? $staropt$star[0] : "";
   return Gen$ReasonmlDemoIterators.fold((function (state, param) {
                 var str = param[1];
@@ -41,8 +16,8 @@ function join2($staropt$star, g) {
               }), "", Gen$ReasonmlDemoIterators.zip_index(g));
 }
 
-Jest.test("join2", (function () {
-        return Jest.Expect[/* toBe */2]("a|b|c", Jest.Expect[/* expect */0](join2(/* Some */["|"], Gen$ReasonmlDemoIterators.of_list(/* :: */[
+Jest.test("joinViaIndex", (function () {
+        return Jest.Expect[/* toBe */2]("a|b|c", Jest.Expect[/* expect */0](joinViaIndex(/* Some */["|"], Gen$ReasonmlDemoIterators.of_list(/* :: */[
                                 "a",
                                 /* :: */[
                                   "b",
@@ -54,6 +29,31 @@ Jest.test("join2", (function () {
                               ]))));
       }));
 
-exports.join1 = join1;
-exports.join2 = join2;
+function joinViaLookAhead($staropt$star, g) {
+  var sep = $staropt$star ? $staropt$star[0] : "";
+  return Gen$ReasonmlDemoIterators.fold((function (state, param) {
+                var str = param[0];
+                if (param[1]) {
+                  return state + (str + sep);
+                } else {
+                  return state + str;
+                }
+              }), "", Gen$ReasonmlDemoIterators.peek(g));
+}
+
+Jest.test("joinViaLookAhead", (function () {
+        return Jest.Expect[/* toBe */2]("a|b|c", Jest.Expect[/* expect */0](joinViaLookAhead(/* Some */["|"], Gen$ReasonmlDemoIterators.of_list(/* :: */[
+                                "a",
+                                /* :: */[
+                                  "b",
+                                  /* :: */[
+                                    "c",
+                                    /* [] */0
+                                  ]
+                                ]
+                              ]))));
+      }));
+
+exports.joinViaIndex     = joinViaIndex;
+exports.joinViaLookAhead = joinViaLookAhead;
 /*  Not a pure module */

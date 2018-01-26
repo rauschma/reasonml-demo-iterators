@@ -1,28 +1,7 @@
 open Jest;
 open Expect;
 
-let join1 = (~sep: string = "", g: Gen.t(string)) => {
-  Gen.fold(
-    (state, (str, lookahead)) =>
-      /* No separator after the last element */
-      switch lookahead {
-      | None => state ++ str
-      | _ => state ++ str ++ sep
-      },
-    "",
-    Gen.peek(g)
-  );
-};
-
-/* You could examine if state is empty. But then the separator wouldn’t work for empty strings in the sequence */
-
-test("join1", () => {
-  expect(join1(~sep="|", Gen.of_list(["a", "b", "c"])))
-    |> toBe("a|b|c")
-});
-
-
-let join2 = (~sep: string = "", g: Gen.t(string)) => {
+let joinViaIndex = (~sep: string = "", g: Gen.t(string)) => {
   Gen.fold(
     (state, (index, str)) =>
       /* No separator before the first element */
@@ -36,14 +15,30 @@ let join2 = (~sep: string = "", g: Gen.t(string)) => {
   );
 };
 
-test("join2", () => {
-  expect(join2(~sep="|", Gen.of_list(["a", "b", "c"])))
+/* You could examine if state is empty. But then the separator wouldn’t work for empty strings in the sequence */
+
+test("joinViaIndex", () => {
+  expect(joinViaIndex(~sep="|", Gen.of_list(["a", "b", "c"])))
+    |> toBe("a|b|c")
+});
+
+let joinViaLookAhead = (~sep: string = "", g: Gen.t(string)) => {
+  Gen.fold(
+    (state, (str, lookAhead)) =>
+      /* No separator after the last element */
+      switch lookAhead {
+      | None => state ++ str
+      | _ => state ++ str ++ sep
+      },
+    "",
+    Gen.peek(g)
+  );
+};
+
+test("joinViaLookAhead", () => {
+  expect(joinViaLookAhead(~sep="|", Gen.of_list(["a", "b", "c"])))
     |> toBe("a|b|c")
 });
 
 
-
-
-
-
-/* Similar: Gen.intersperse() */
+/* Similar problem: Gen.intersperse() */
