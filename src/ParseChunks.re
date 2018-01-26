@@ -27,22 +27,36 @@ let reverseLines = ({body} as ch: chunk) => {
 
 let toOptChunk = ({body} as ch: chunk) =>
   if (List.length(body) == 0) {
+    /* Chunk is empty, discard it */
     None;
   } else {
+    /* Lines are in reverse order, change that */
     Some(reverseLines(ch));
   };
 
-let linesToChunks = (lines: Gen.t(string)): Gen.t(chunk) => {
-  let func = (state: chunk, line: string) => {
-    switch (extractTitle(line)) {
-    | None => (appendLine(line, state), None)
-    | Some(title) =>
-      let nextState = {title, body: [line]};
-      (nextState, toOptChunk(state));
-    };
+/*TMD.begin unfoldScanFunc*/
+let unfoldScanFunc = (state: chunk, line: string) => {
+  switch (extractTitle(line)) {
+  | None =>
+    let nextState = appendLine(line, state);
+    let output = None;
+    (nextState, output)
+  | Some(title) =>
+    let nextState = {title, body: [line]};
+    let output = toOptChunk(state);
+    (nextState, output);
   };
-  let linesWithSentinel = Gen.append(lines, Gen.singleton("## Will be discarded"));
-  let genWithOpts = Gen.unfold_scan(func, {title: "PREFIX", body: []}, linesWithSentinel);
+};
+/*TMD.end unfoldScanFunc*/
+
+let linesToChunks = (lines: Gen.t(string)): Gen.t(chunk) => {
+  /* Add a trigger for the last chunk */
+  let sentinel = Gen.singleton("## Will be discarded");
+  let linesWithSentinel = Gen.append(lines, sentinel);
+  let firstState = {title: "PREFIX", body: []};
+  let genWithOpts = Gen.unfold_scan(unfoldScanFunc,
+    firstState, linesWithSentinel);
+  /* Remove None, unwrap Some() */
   Gen.filter_map(x => x, genWithOpts);
 };
 

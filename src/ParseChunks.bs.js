@@ -43,32 +43,36 @@ function toOptChunk(ch) {
   }
 }
 
+function unfoldScanFunc(state, line) {
+  var match = extractTitle(line);
+  if (match) {
+    var nextState_000 = /* title */match[0];
+    var nextState_001 = /* body : :: */[
+      line,
+      /* [] */0
+    ];
+    var nextState = /* record */[
+      nextState_000,
+      nextState_001
+    ];
+    var output = toOptChunk(state);
+    return /* tuple */[
+            nextState,
+            output
+          ];
+  } else {
+    var nextState$1 = appendLine(line, state);
+    return /* tuple */[
+            nextState$1,
+            /* None */0
+          ];
+  }
+}
+
 function linesToChunks(lines) {
-  var func = function (state, line) {
-    var match = extractTitle(line);
-    if (match) {
-      var nextState_000 = /* title */match[0];
-      var nextState_001 = /* body : :: */[
-        line,
-        /* [] */0
-      ];
-      var nextState = /* record */[
-        nextState_000,
-        nextState_001
-      ];
-      return /* tuple */[
-              nextState,
-              toOptChunk(state)
-            ];
-    } else {
-      return /* tuple */[
-              appendLine(line, state),
-              /* None */0
-            ];
-    }
-  };
-  var linesWithSentinel = Gen$ReasonmlDemoIterators.append(lines, Gen$ReasonmlDemoIterators.singleton("## Will be discarded"));
-  var genWithOpts = Gen$ReasonmlDemoIterators.unfold_scan(func, /* record */[
+  var sentinel = Gen$ReasonmlDemoIterators.singleton("## Will be discarded");
+  var linesWithSentinel = Gen$ReasonmlDemoIterators.append(lines, sentinel);
+  var genWithOpts = Gen$ReasonmlDemoIterators.unfold_scan(unfoldScanFunc, /* record */[
         /* title */"PREFIX",
         /* body : [] */0
       ], linesWithSentinel);
@@ -136,6 +140,7 @@ exports.extractTitle     = extractTitle;
 exports.appendLine       = appendLine;
 exports.reverseLines     = reverseLines;
 exports.toOptChunk       = toOptChunk;
+exports.unfoldScanFunc   = unfoldScanFunc;
 exports.linesToChunks    = linesToChunks;
 exports.linesToChunksImp = linesToChunksImp;
 /* titleRegex Not a pure module */
