@@ -20,5 +20,9 @@ test("Gen.zip", () => {
   let abc = Gen.of_list(["a", "b", "c"]);
   let pairs = Gen.zip(naturalNumbers(), abc);
   expect(Gen.to_list(pairs))
-    |> toEqual([(0, "a"), (1, "b"), (2, "c")]);
+    |> toEqual([
+        (0, "a"),
+        (1, "b"),
+        (2, "c")
+      ]);
 });
