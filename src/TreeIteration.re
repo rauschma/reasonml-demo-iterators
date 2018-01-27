@@ -48,6 +48,17 @@ let ofTree = (tr: tree('a)): Gen.t('a) => {
     | Some(func) =>
       next := None;
       func();
-    | None => failwith("Should never happen");
+    /* After the last node of the tree, */
+    /* we always return None */
+    | None => None
     };
 };
+
+
+
+
+
+
+
+
+

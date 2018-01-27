@@ -2,6 +2,7 @@
 'use strict';
 
 var Jest                                = require("@glennsl/bs-jest/src/jest.js");
+var Curry                               = require("bs-platform/lib/js/curry.js");
 var Gen$ReasonmlDemoIterators           = require("../src/lib/gen/gen.bs.js");
 var TreeIteration$ReasonmlDemoIterators = require("../src/TreeIteration.bs.js");
 
@@ -24,6 +25,7 @@ var myStrTree = /* Node */[
 ];
 
 Jest.test("ofTree", (function () {
+        var treeGen = TreeIteration$ReasonmlDemoIterators.ofTree(myStrTree);
         return Jest.Expect[/* toEqual */12](/* :: */[
                     "a",
                     /* :: */[
@@ -36,7 +38,24 @@ Jest.test("ofTree", (function () {
                         ]
                       ]
                     ]
-                  ], Jest.Expect[/* expect */0](Gen$ReasonmlDemoIterators.to_list(TreeIteration$ReasonmlDemoIterators.ofTree(myStrTree))));
+                  ], Jest.Expect[/* expect */0](Gen$ReasonmlDemoIterators.to_list(treeGen)));
+      }));
+
+Jest.test("ofTree, beyond last leaf", (function () {
+        var gen = TreeIteration$ReasonmlDemoIterators.ofTree(/* Node */[
+              "X",
+              /* Empty */0,
+              /* Empty */0
+            ]);
+        return Jest.Expect[/* toEqual */12](/* tuple */[
+                    /* Some */["X"],
+                    /* None */0,
+                    /* None */0
+                  ], Jest.Expect[/* expect */0](/* tuple */[
+                        Curry._1(gen, /* () */0),
+                        Curry._1(gen, /* () */0),
+                        Curry._1(gen, /* () */0)
+                      ]));
       }));
 
 exports.myStrTree = myStrTree;
