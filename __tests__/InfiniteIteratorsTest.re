@@ -1,7 +1,7 @@
 open Jest;
 open Expect;
 
-let naturalNumbers = () => {
+let naturalNumbers = (): Gen.t(int) => {
   let n = ref(0);
   () => {
     let cur = n^;
