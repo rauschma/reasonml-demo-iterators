@@ -43,8 +43,8 @@ let filter = (~f: 'a => bool, in_: gen('a)): gen('a) => {
   let rec out = () =>
     switch (in_()) {
     | None => None
-    | Some(x) =>
-      if (f(x)) Some(x) else out();
+    | Some(x) when f(x) => Some(x)
+    | _ => out()
     };
   out;
 };
