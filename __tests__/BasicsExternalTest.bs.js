@@ -5,7 +5,7 @@ var Jest                                 = require("@glennsl/bs-jest/src/jest.js
 var BasicsExternal$ReasonmlDemoIterators = require("../src/BasicsExternal.bs.js");
 
 Jest.test("ofList, toList", (function () {
-        var seq = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
+        var gen = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
               "a",
               /* :: */[
                 "b",
@@ -24,11 +24,11 @@ Jest.test("ofList, toList", (function () {
                         /* [] */0
                       ]
                     ]
-                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(seq)));
+                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(gen)));
       }));
 
 Jest.test("length", (function () {
-        var seq = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
+        var gen = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
               "a",
               /* :: */[
                 "b",
@@ -38,11 +38,11 @@ Jest.test("length", (function () {
                 ]
               ]
             ]);
-        return Jest.Expect[/* toBe */2](3, Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.length(seq)));
+        return Jest.Expect[/* toBe */2](3, Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.length(gen)));
       }));
 
 Jest.test("map", (function () {
-        var seqIn = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
+        var genIn = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
               1,
               /* :: */[
                 2,
@@ -52,9 +52,9 @@ Jest.test("map", (function () {
                 ]
               ]
             ]);
-        var seqOut = BasicsExternal$ReasonmlDemoIterators.map((function (x) {
+        var genOut = BasicsExternal$ReasonmlDemoIterators.map((function (x) {
                 return (x << 1);
-              }), seqIn);
+              }), genIn);
         return Jest.Expect[/* toEqual */12](/* :: */[
                     2,
                     /* :: */[
@@ -64,11 +64,11 @@ Jest.test("map", (function () {
                         /* [] */0
                       ]
                     ]
-                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(seqOut)));
+                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(genOut)));
       }));
 
 Jest.test("filter", (function () {
-        var seqIn = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
+        var genIn = BasicsExternal$ReasonmlDemoIterators.ofList(/* :: */[
               1,
               /* :: */[
                 -2,
@@ -81,16 +81,16 @@ Jest.test("filter", (function () {
                 ]
               ]
             ]);
-        var seqOut = BasicsExternal$ReasonmlDemoIterators.filter((function (x) {
+        var genOut = BasicsExternal$ReasonmlDemoIterators.filter((function (x) {
                 return +(x >= 0);
-              }), seqIn);
+              }), genIn);
         return Jest.Expect[/* toEqual */12](/* :: */[
                     1,
                     /* :: */[
                       3,
                       /* [] */0
                     ]
-                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(seqOut)));
+                  ], Jest.Expect[/* expect */0](BasicsExternal$ReasonmlDemoIterators.toList(genOut)));
       }));
 
 /*  Not a pure module */
