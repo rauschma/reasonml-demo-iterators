@@ -4,10 +4,10 @@ let ofList = (theList: list('a)) =>
   (f: 'a => unit) => {
     let rec aux = (l) =>
       switch (l) {
+      | [] => ()
       | [head, ...tail] =>
         f(head);
         aux(tail);
-      | [] => ()
       };
     aux(theList);
   };
@@ -37,8 +37,8 @@ let filter = (~f: 'a => bool, seqIn: sequence('a)): sequence('a) => {
   let seqOut = (out: 'b => unit) =>
     seqIn((in_: 'a) =>
       switch (f(in_)) {
-      | true => out(in_);
       | false => ();
+      | true => out(in_);
       }
     );
   seqOut;
