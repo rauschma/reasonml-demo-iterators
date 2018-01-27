@@ -33,8 +33,8 @@ let length = (g: gen('a)): int => {
 let map = (~f: 'a => 'b, in_: gen('a)): gen('b) => {
   let out = () =>
     switch (in_()) {
-    | Some(x) => Some(f(x))
     | None => None
+    | Some(x) => Some(f(x))
     };
   out;
 };
